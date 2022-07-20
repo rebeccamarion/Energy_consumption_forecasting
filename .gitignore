@@ -1,2 +1,3 @@
-Data_raw/**/
-!Data_raw/**/.gitkeep
+/Data_raw/**
+!/Data_raw/**/
+!/Data_raw/**/.gitkeep
