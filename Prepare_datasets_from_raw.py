@@ -69,7 +69,7 @@ file_path_data = prefix_data + data_type + "/"
 file_name_meta_data = file_path_raw_data + 'Residential allocations.xls'
 df = pd.read_excel(file_name_meta_data)
 meta_data = df.iloc[:, 0:2]
-# Residential: Code = 1
+# Residential: all IDs
 res_IDs = list(meta_data.ID) # IDs for residential 
 
 ## Consumption data ##

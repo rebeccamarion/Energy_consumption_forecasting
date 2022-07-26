@@ -1,3 +1,5 @@
+__pycache__/*
+
 /Data_raw/**
 !/Data_raw/**/
 !/Data_raw/**/.gitkeep
