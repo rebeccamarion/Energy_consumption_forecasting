@@ -1,24 +1,73 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Generic custom functions
+Custom functions
 """
 
 import pickle as pkl
 import pandas as pd
 
 def load_data (file) : 
+    """
+    Loads a .pkl file 
+
+    Parameters
+    ----------
+    file : str
+        File name for .pkl file, including file path with respect to working
+        directory
+        
+    Returns
+    -------
+    Object of any type imported from file
+    """
     
     with open(file, "br") as f:
          data = pkl.load(f)
+         
     return data
 
 def save_data (file, element) : 
+    """
+    Save an object
+
+    Parameters
+    ----------
+    file : str
+        File name for .pkl file, including file path with respect to working
+        directory and extension .pkl
+        
+    element : any type
+        Object to be saved
+    """
     
     with open(file, "bw") as f:
          pkl.dump(element, f)
          
 def format_raw_data (df_old, res_IDs):
+    """
+    Formats raw data imported from ISSDA .csv and .txt files
+    
+    Column dtypes are downcast to lower-memory versions; new columns for day 
+    and time codes are generated based on the column "day_time_code"; 
+    non-residential instances are removed.
+
+    Parameters
+    ----------
+    df_old : pandas.core.frame.DataFrame
+        Dataset containing the columns "ID", "day_time_code" and "consumption"
+        
+    res_IDs : list
+        ID numbers for instances classified as "residential" consumers
+
+    Returns
+    -------
+    pandas.core.frame.DataFrame
+        Dataset containing only residential data, with columns "ID", 
+        "day_time_code", "consumption", "day_code" and "time_code". For more 
+        information on the codes used for "day_time_code", etc., visit
+        https://www.ucd.ie/issda/data/commissionforenergyregulationcer/ .
+    """
     
     df = df_old.copy()
     
