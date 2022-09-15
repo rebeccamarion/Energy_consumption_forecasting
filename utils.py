@@ -235,3 +235,33 @@ def format_raw_data (df_old, res_IDs, dst_days, dst_times):
     df["date_time"] = df["date"] + df["time"] 
     
     return df
+
+def agg_hourly_data (df, ID = None, col_name = "consumption"):
+    """
+    Aggregates (sums) all data in an hour period for a single series
+
+    Parameters
+    ----------
+    df : pandas.core.frame.DataFrame
+        Dataset containing a column to aggregate (with the name col_name) and
+        index of time stamps
+        
+    ID : int
+        ID number for the series in df
+    
+    col_name : str
+        name of column that is aggregated
+        
+
+    Returns
+    -------
+    pandas.core.series.Series
+        Dataset of values for col_name aggregated hourly (sum). 
+        
+    """
+    
+    series = df[col_name]
+    series_agg = series.resample("60min", label='right', closed='right').sum()
+    series_agg = series_agg.rename(ID, inplace = True)
+
+    return series_agg    

@@ -57,6 +57,30 @@ for file_index in range(nb_files):
 
 df_all = pd.concat(df_list).reset_index(drop = True) 
 df_all = df_all.sort_values(['ID', 'day_time_code'], ascending=[True, True]).reset_index(drop = True)
+df_all = df_all.set_index("date_time")
 
 file_name_out = file_path_data + "residential_all.pkl"
 utils.save_data(file_name_out, df_all)
+
+## Format data by customer ID ##
+
+# Aggregate consumption for each hour (sum)
+# Save individual files for each ID
+
+df_ID = df_all.groupby(df_all.ID).get_group(1003)
+# Consumption data by consumer
+list_hourly_series = []
+for ID, df_ID in df_all.groupby(df_all.ID):
+    
+    # aggregate hourly data for a single ID
+    series_agg = utils.agg_hourly_data(df_ID, ID, "consumption")
+    
+    # save the aggregated series
+    file_name_out = file_path_data + f"residential_{ID}_hour.pkl"
+    utils.save_data(file_name_out, series_agg)
+    
+    list_hourly_series.append(series_agg)
+    
+df_hourly = pd.concat(list_hourly_series, axis = 1, keys = [s.name for s in list_hourly_series])
+file_name_out = file_path_data + "residential_all_hourly.pkl"
+utils.save_data(file_name_out, df_hourly)
