@@ -15,9 +15,9 @@ via a request form (https://www.ucd.ie/issda/data/commissionforenergyregulationc
 The following packages are required to run the scripts in this project:
 
 * glob
-* numpy
+* numpy >= 1.22.3
 * os
-* pandas
+* pandas >= 1.4.1
 * pickle
 
 ## Runing the Prepare_datasets_from_raw.py script
